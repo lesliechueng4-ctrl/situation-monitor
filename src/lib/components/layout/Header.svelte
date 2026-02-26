@@ -14,7 +14,6 @@
 			: 'Never refreshed'
 	);
 
-	// 动态 class
 	const zhBtnClass = $derived($isZh ? 'active' : '');
 	const enBtnClass = $derived(!$isZh ? 'active' : '');
 </script>
@@ -35,7 +34,6 @@
 	</div>
 
 	<div class="header-right">
-		<!-- 语言切换器 -->
 		<div class="language-switcher">
 			<button 
 				class={$zhBtnClass}
@@ -97,7 +95,6 @@
 		flex: 1;
 		justify-content: center;
 		min-width: 0;
-;
 	}
 
 	.refresh-status {
@@ -125,7 +122,6 @@
 		flex-shrink: 0;
 	}
 
-	/* 语言切换器 */
 	.language-switcher {
 		display: flex;
 		gap: 0.25rem;
