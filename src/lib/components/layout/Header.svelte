@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { isRefreshing, lastRefresh } from '$lib/stores';
+	import { t, language, setLanguage, isZh } from '$lib/i18n';
 
 	interface Props {
 		onSettingsClick?: () => void;
@@ -8,7 +9,7 @@
 	let { onSettingsClick }: Props = $props();
 
 	const lastRefreshText = $derived(
-		$lastRefresh
+		$isRefreshing
 			? `Last updated: ${new Date($lastRefresh).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`
 			: 'Never refreshed'
 	);
@@ -22,7 +23,7 @@
 	<div class="header-center">
 		<div class="refresh-status">
 			{#if $isRefreshing}
-				<span class="status-text loading">Refreshing...</span>
+				<span class="status-text loading">{t('common.loading')}</span>
 			{:else}
 				<span class="status-text">{lastRefreshText}</span>
 			{/if}
@@ -30,9 +31,27 @@
 	</div>
 
 	<div class="header-right">
-		<button class="header-btn settings-btn" onclick={onSettingsClick} title="Settings">
+		<!-- 语言切换器 -->
+		<div class="language-switcher">
+			<button 
+				class:active={$isZh}
+				on:click={() => setLanguage('zh')}
+				title="切换到中文"
+			>
+				中
+			</button>
+			<button 
+				class:active={!$isZh}
+				on:click={() => setLanguage('en')}
+				title="Switch to English"
+			>
+				EN
+			</button>
+		</div>
+
+		<button class="header-btn settings-btn" onclick={onSettingsClick} title={t('nav.settings')}>
 			<span class="btn-icon">⚙</span>
-			<span class="btn-label">Settings</span>
+			<span class="btn-label">{t('nav.settings')}</span>
 		</button>
 	</div>
 </header>
@@ -99,6 +118,39 @@
 		align-items: center;
 		gap: 0.5rem;
 		flex-shrink: 0;
+	}
+
+	/* 语言切换器 */
+	.language-switcher {
+		display: flex;
+		gap: 0.25rem;
+	}
+
+	.language-switcher button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 2rem;
+		padding: 0.35rem 0.5rem;
+		background: transparent;
+		border: 1px solid var(--border);
+		border-radius: 3px;
+		color: var(--text-secondary);
+		cursor: pointer;
+		transition: all 0.15s ease;
+		font-size: 0.65rem;
+		font-weight: 500;
+	}
+
+	.language-switcher button:hover {
+		background: var(--border);
+		color: var(--text-primary);
+	}
+
+	.language-switcher button.active {
+		background: var(--accent);
+		color: white;
+		border-color: var(--accent);
 	}
 
 	.header-btn {
