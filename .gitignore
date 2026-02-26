@@ -3,7 +3,7 @@ node_modules/
 
 # Build output
 .svelte-kit/
-build/
+# build/  # Don't ignore - needed for GitHub Pages
 dist/
 
 # Environment
