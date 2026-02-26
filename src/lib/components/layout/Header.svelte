@@ -13,6 +13,10 @@
 			? `Last updated: ${new Date($lastRefresh).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}`
 			: 'Never refreshed'
 	);
+
+	// 动态 class
+	const zhBtnClass = $derived($isZh ? 'active' : '');
+	const enBtnClass = $derived(!$isZh ? 'active' : '');
 </script>
 
 <header class="header">
@@ -34,15 +38,15 @@
 		<!-- 语言切换器 -->
 		<div class="language-switcher">
 			<button 
-				class:active={$isZh}
-				on:click={() => setLanguage('zh')}
+				class={$zhBtnClass}
+				onclick={() => setLanguage('zh')}
 				title="切换到中文"
 			>
 				中
 			</button>
 			<button 
-				class:active={!$isZh}
-				on:click={() => setLanguage('en')}
+				class={$enBtnClass}
+				onclick={() => setLanguage('en')}
 				title="Switch to English"
 			>
 				EN
@@ -93,6 +97,7 @@
 		flex: 1;
 		justify-content: center;
 		min-width: 0;
+;
 	}
 
 	.refresh-status {
